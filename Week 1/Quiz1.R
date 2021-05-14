@@ -11,8 +11,8 @@ renv::init(bare = TRUE)
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
-packages <- c("Biobase", "GenomicRanges", "SummarizedExperiment", "dplyr", "DESeq2", "rafalib")
-BiocManager::install(packages, update = TRUE, ask = FALSE)
+packages <- c("Biobase", "GenomicRanges", "SummarizedExperiment", "dplyr", "DESeq2", "rafalib", "rmarkdown")
+BiocManager::install("rmarkdown", update = TRUE, ask = FALSE)
 
 renv::snapshot()
 
@@ -24,60 +24,60 @@ features <- SummarizedExperiment::rowData(se)
 SummarizedExperiment::rowRanges(se)
 
 # Load the Bottomly and the Bodymap data sets with the following code
-con <- url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bottomly_eset.RData")
+con <- url("https://bowtie-bio.sourceforge.net/recount/ExpressionSets/bottomly_eset.RData")
 load(file=con)
 close(con)
 bot <- bottomly.eset
-pdata_bot <- pData(bot)
+pdata_bot <- Biobase::pData(bot)
 table(pdata_bot$strain)
 table(pdata_bot$strain, pdata_bot$experiment.number)
 table(pdata_bot$strain, pdata_bot$num.tech.reps)
 table(pdata_bot$num.tech.reps)
 
-con <- url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+con <- url("https://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
 load(file=con)
 close(con)
 bm <- bodymap.eset
-pdata_bm <- pData(bm)
+pdata_bm <- Biobase::pData(bm)
 table(pdata_bm$gender, pdata_bm$race)
 table(pdata_bm$gender, pdata_bm$tissue.type)
 table(pdata_bm$num.tech.reps)
 
 # Load the Bottomly data
-con <- url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+con <- url("https://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
 load(file=con)
 close(con)
 bm <- bodymap.eset
 
-edata <- exprs(bm)
+edata <- Biobase::exprs(bm)
 row_sums <- rowSums(edata)
 edata <- edata[order(-row_sums),]
 index <- 1:500
 heatmap(edata[index,],Rowv=NA,Colv=NA) # 16864261,  12245926
 
-edata <- exprs(bm)
+edata <- Biobase::exprs(bm)
 row_sums < rowSums(edata)
 index <- which(rank(row_sums) < 500 )
 heatmap(edata[index,],Colv=NA)
 
-edata <- exprs(bm)
+edata <- Biobase::exprs(bm)
 row_sums <- rowSums(edata)
 edata <- edata[order(row_sums),]
 index <- which(rank(-row_sums) < 500 )
 heatmap(edata[index,],Rowv=NA,Colv=NA) # 0, 0, 0, 0
 
-edata <- exprs(bm)
+edata <- Biobase::exprs(bm)
 row_sums <- rowSums(edata)
 index <- which(rank(-row_sums) < 500 )
 heatmap(edata[index,],Rowv=NA,Colv=NA) # 307296, 202806, 319412
 
 # Load the Bodymap data using the following code:
-con <- url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+con <- url("https://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
 load(file=con)
 close(con)
 bm <- bodymap.eset
-pdata <- pData(bm)
-edata <- exprs(bm)
+pdata <- Biobase::pData(bm)
+edata <- Biobase::exprs(bm)
 
 mm <- log2(edata[,1]+1) - log2(edata[,2]+1)
 aa <- log2(edata[,1]+1) + log2(edata[,2]+1)
@@ -89,13 +89,13 @@ aa <- (edata_rlog[,1]) + (edata_rlog[,2])
 plot(aa,mm,col=2)
 
 # Load the Montgomery and Pickrell eSet:
-con <- url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/montpick_eset.RData")
+con <- url("https://bowtie-bio.sourceforge.net/recount/ExpressionSets/montpick_eset.RData")
 load(file=con)
 close(con)
 mp <- montpick.eset
-pdata <- pData(mp)
-edata <- as.data.frame(exprs(mp))
-fdata <- fData(mp)
+pdata <- Biobase::pData(mp)
+edata <- as.data.frame(Biobase::exprs(mp))
+fdata <- Biobase::fData(mp)
 
 # Clustering with no changes to the data
 dist1 <- dist(t(edata)) # by default calculates the distance between rows
@@ -119,13 +119,13 @@ plot(hclust1, hang=-1) # plot dendogram
 rafalib::myplclust(hclust1, lab.col = as.numeric(pdata$study))
 
 # Load the Montgomery and Pickrell eSet:
-con <- url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/montpick_eset.RData")
+con <- url("https://bowtie-bio.sourceforge.net/recount/ExpressionSets/montpick_eset.RData")
 load(file=con)
 close(con)
 mp <- montpick.eset
-pdata <- pData(mp)
-edata <- as.data.frame(exprs(mp))
-fdata <- fData(mp)
+pdata <- Biobase::pData(mp)
+edata <- as.data.frame(Biobase::exprs(mp))
+fdata <- Biobase::fData(mp)
 
 # Cluster the samples using k-means clustering after applying the log transform
 log_edata <- log2(edata + 1)
