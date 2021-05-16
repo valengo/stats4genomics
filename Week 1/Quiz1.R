@@ -12,7 +12,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
 packages <- c("Biobase", "GenomicRanges", "SummarizedExperiment", "dplyr", "DESeq2", "rafalib", "rmarkdown")
-BiocManager::install("rmarkdown", update = TRUE, ask = FALSE)
+BiocManager::install(packages, update = TRUE, ask = FALSE)
 
 renv::snapshot()
 
@@ -24,7 +24,7 @@ features <- SummarizedExperiment::rowData(se)
 SummarizedExperiment::rowRanges(se)
 
 # Load the Bottomly and the Bodymap data sets with the following code
-con <- url("https://bowtie-bio.sourceforge.net/recount/ExpressionSets/bottomly_eset.RData")
+con <- url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bottomly_eset.RData")
 load(file=con)
 close(con)
 bot <- bottomly.eset
@@ -34,7 +34,7 @@ table(pdata_bot$strain, pdata_bot$experiment.number)
 table(pdata_bot$strain, pdata_bot$num.tech.reps)
 table(pdata_bot$num.tech.reps)
 
-con <- url("https://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+con <- url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
 load(file=con)
 close(con)
 bm <- bodymap.eset
@@ -44,7 +44,7 @@ table(pdata_bm$gender, pdata_bm$tissue.type)
 table(pdata_bm$num.tech.reps)
 
 # Load the Bottomly data
-con <- url("https://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+con <- url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
 load(file=con)
 close(con)
 bm <- bodymap.eset
@@ -72,7 +72,7 @@ index <- which(rank(-row_sums) < 500 )
 heatmap(edata[index,],Rowv=NA,Colv=NA) # 307296, 202806, 319412
 
 # Load the Bodymap data using the following code:
-con <- url("https://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
+con <- url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/bodymap_eset.RData")
 load(file=con)
 close(con)
 bm <- bodymap.eset
@@ -89,7 +89,7 @@ aa <- (edata_rlog[,1]) + (edata_rlog[,2])
 plot(aa,mm,col=2)
 
 # Load the Montgomery and Pickrell eSet:
-con <- url("https://bowtie-bio.sourceforge.net/recount/ExpressionSets/montpick_eset.RData")
+con <- url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/montpick_eset.RData")
 load(file=con)
 close(con)
 mp <- montpick.eset
@@ -119,7 +119,7 @@ plot(hclust1, hang=-1) # plot dendogram
 rafalib::myplclust(hclust1, lab.col = as.numeric(pdata$study))
 
 # Load the Montgomery and Pickrell eSet:
-con <- url("https://bowtie-bio.sourceforge.net/recount/ExpressionSets/montpick_eset.RData")
+con <- url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/montpick_eset.RData")
 load(file=con)
 close(con)
 mp <- montpick.eset
